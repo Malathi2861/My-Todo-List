@@ -7,17 +7,18 @@ class TodoSerializer(serializers.ModelSerializer):
         model = Todo
         fields = ('id', 'content')
 
-    def get(self, validated_data):
-        # profile_data = validated_data.pop('profile')
-        # user = User.objects.create(**validated_data)
-        # Profile.objects.create(user=user, **profile_data)
+    def create(self, validated_data):
         data = validated_data.pop('content')
         output = Todo.objects.create(content=data)
         return output
 
     def update(self, instance, validated_data):
-
-        instance.content = validated_data.get('email')
-        instance.content = validated_data.get('content', instance.content)
-        instance.created = validated_data.get('created', instance.created)
+        instance.content = validated_data.get('content')
+        instance.save()
         return instance
+
+    def delete(self, instance):
+        instance.id = validated_data.get('id')
+        instance.delete()
+        return instance
+
